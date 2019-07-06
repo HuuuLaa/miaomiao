@@ -4,12 +4,22 @@ import Vue from 'vue'
 import App from './App'
 import router from './routers'
 
+import axios from 'axios'
+Vue.prototype.$axios = axios;
+axios.defaults.baseURL = '/api';
+axios.defaults.headers.post['Content-Type'] = 'application/json;'
+
+Vue.filter('setWH',(url , arg)=>{
+  return url.replace(/w\.h/,arg);
+});
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  axios,
   components: { App },
   template: '<App/>'
 })
