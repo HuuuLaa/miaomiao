@@ -1,19 +1,22 @@
 <template>
     <div class="movie_body">
-        <ul>
-            <li v-for="item in comingList" :key="item.id">
-                <div class="pic_show"><img :src="item.img | setWH('128.180')" alt=""></div>
-                <div class="info_list">
-                    <h2>{{ item.nm }}</h2> <img v-if="item.version" src="@/assets/IMAX1.png" alt="">
-                    <p>{{ item.wish }}人想看</p>
-                    <p>主演：{{ item.star }}</p>
-                    <p>{{ item.rt }}上映</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-        </ul>
+        <Loading v-if="isLoading" />
+        <scroller v-else>
+            <ul>
+                <li v-for="item in comingList" :key="item.id">
+                    <div class="pic_show"><img :src="item.img | setWH('128.180')" alt=""></div>
+                    <div class="info_list">
+                        <h2>{{ item.nm }}</h2> <img v-if="item.version" src="@/assets/IMAX1.png" alt="">
+                        <p>{{ item.wish }}人想看</p>
+                        <p>主演：{{ item.star }}</p>
+                        <p>{{ item.rt }}上映</p>
+                    </div>
+                    <div class="btn_mall">
+                        购票
+                    </div>
+                </li>
+            </ul>
+        </scroller>
     </div>
 </template>
 
@@ -22,14 +25,24 @@ export default {
     name: "ComingSoon",
     data(){
         return {
-            comingList: []
+            comingList: [],
+            isLoading: true,
+            prevCityId: -1
         }
     },
-    mounted(){
-        this.$axios.get('/api/movieComingList?cityId=10').then((res)=>{
+    activated(){
+        var _this = this;
+        var cityId = this.$store.state.city.id;
+        
+        if(_this.prevCityId === cityId){ return;}
+        _this.isLoading = true;
+
+        _this.$axios.get('/api/movieComingList?cityId='+cityId).then((res)=>{
             var msg = res.data.msg;
             if(msg === 'ok'){
-                this.comingList = res.data.data.comingList;
+                _this.isLoading = false;
+                _this.prevCityId = cityId;
+                _this.comingList = res.data.data.comingList;
             }
         })
     }

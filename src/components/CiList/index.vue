@@ -1,20 +1,23 @@
 <template>
     <div class="cinema_body">
-        <ul>
-            <li v-for="item in cinemasList" :key="item.id">
-                <div>
-                    <span>{{item.nm}}</span>
-                    <span class="q"><span class="price">{{item.sellPrice}}</span>元起</span>
-                </div>
-                <div class="address">
-                    <span>{{item.addr}}</span>
-                    <span>{{item.distance}}</span>
-                </div>
-                <div class="card">
-                    <div v-for="(num,key) in item.tag" v-if="num != 0" :class="key | classCard" :key="key">{{key | formatCard}}</div>
-                </div>
-            </li>
-        </ul>
+        <Loading v-if="isLoading" />
+        <scroller v-else>
+            <ul>
+                <li v-for="item in cinemasList" :key="item.id">
+                    <div>
+                        <span>{{item.nm}}</span>
+                        <span class="q"><span class="price">{{item.sellPrice}}</span>元起</span>
+                    </div>
+                    <div class="address">
+                        <span>{{item.addr}}</span>
+                        <span>{{item.distance}}</span>
+                    </div>
+                    <div class="card">
+                        <div v-for="(num,key) in item.tag" v-if="num != 0" :class="key | classCard" :key="key">{{key | formatCard}}</div>
+                    </div>
+                </li>
+            </ul>
+        </scroller>
     </div>
 </template>
 
@@ -23,14 +26,23 @@ export default {
     name: "CiList",
     data () {
         return{
-            cinemasList:[]
+            cinemasList:[],
+            isLoading: true,
+            prevCityId: -1
         }
     },
-    mounted () {
-        this.$axios.get('/api/cinemaList?cityId=10').then((res)=>{
+    activated () {
+        var _this = this;
+        var cityId = this.$store.state.city.id;
+        
+        if(_this.prevCityId === cityId){ return;}
+        _this.isLoading = true;
+        _this.$axios.get('/api/cinemaList?cityId=' + cityId).then((res)=>{
             var msg = res.data.msg;
             if(msg==="ok"){
-                this.cinemasList = res.data.data.cinemas;
+                _this.isLoading = false;
+                _this.cinemasList = res.data.data.cinemas;
+                _this.prevCityId = cityId;
             }
         })
     },
