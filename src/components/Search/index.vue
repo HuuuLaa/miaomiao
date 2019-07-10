@@ -51,6 +51,7 @@ export default {
     watch: {
         message(newVal){
             var _this = this;
+            var cityId = _this.$store.state.city.id;
             //console.log(newVal)
             //防抖 （快速输入情况）
             // clearTimeout()
@@ -58,7 +59,7 @@ export default {
 
             this.cancelRequest();
 
-            this.$axios.get('/api/searchList?cityId=10&kw='+newVal,{
+            this.$axios.get('/api/searchList?cityId=' + cityId + '&kw='+newVal,{
                 cancelToken: new this.$axios.CancelToken(function (c) {
                     _this.source = c;
                 })

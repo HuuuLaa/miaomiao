@@ -1,0 +1,57 @@
+<template>
+    <div class="messageBox">
+        <h2>{{ title }}</h2>
+        <p>{{ content }}</p>
+        <div>
+            <div @touchstart = "handleCancel">{{ cancel }}</div>
+            <div @touchstart = "handleOk">{{ ok }}</div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "MessageBox"
+}
+</script>
+
+<style scoped>
+.messageBox{
+    width: 300px;
+    height: 140px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px 1px #ccc;
+    background: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -70px 0 0 -150px;
+}
+.messageBox h2{
+    text-align: center;
+    line-height: 40px;
+    font-size: 18px;
+}
+.messageBox p{
+    text-align: center;
+    line-height: 40px;
+}
+.messageBox >div{
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #ccc;
+}
+.messageBox >div div {
+    padding: 5px;
+    flex: 1;
+    text-align: center;
+    line-height: 30px;
+    border-right: 1px #ccc solid;
+}
+.messageBox > div div:last-child{
+    border: none;
+}
+</style>
