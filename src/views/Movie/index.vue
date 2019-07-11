@@ -21,6 +21,7 @@
         </div>
         <TabBar/>
         <!-- <MessageBox/> -->
+        <router-view name="detail" />
     </div>
 </template>
 
