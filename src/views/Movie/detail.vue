@@ -6,7 +6,7 @@
         <Loading v-if="isLoading" />
         <div v-else id="content" class="contentDetail">
             <div class="detail_list">
-                <div class="detail_list_bg"></div>
+                <div class="detail_list_bg" :style="{'background-image': 'url('+detailMovie.albumImg.replace(/w\.h/,'148.208') +')'}"></div>
                 <div class="detail_list_filter"></div>
                 <div class="detail_list_content">
                     <div class="detail_list_img">
@@ -31,7 +31,7 @@
                         <div>
                             <img :src="item | setWH('140.127')" alt="">
                         </div>
-                        <p>dddd</p>
+                        <p></p>
                         <p></p>
                     </li>
                 </ul>
@@ -104,7 +104,7 @@ export default {
     100%{ transform: translateX(0);}
 }
 #detailContainer .detail_list{height: 190px; width: 100%; position: relative; overflow: hidden;}
-.detail_list .detail_list_bg{width: 100%; height: 100%; background: url(/images/movie_1.jpg) 0 40%; filter: blur(20px); position: absolute;}
+.detail_list .detail_list_bg{width: 100%; height: 100%; background: 0 40%; filter: blur(20px); background-size: cover; position: absolute; left: 0;top: 0;}
 .detail_list .detail_list_filter{width: 100%; height: 100%; position: absolute; background-color: #40454d; opacity: .55; }
 .detail_list .detail_list_content{ display: flex; width: 100%; height: 100%; position: absolute; left: 0; top:0; z-index: 2;}
 .detail_list .detail_list_img{width: 108px; height: 150px; border: 1px solid #f0f2f3; margin: 20px;}
